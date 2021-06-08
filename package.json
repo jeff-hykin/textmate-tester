@@ -4,6 +4,10 @@
     "description": "A package to help your grammars be less buggy",
     "icon": "icon.png",
     "version": "1.0.0",
+    "license": "MIT",
+    "bin": {
+        "textmate-tester": "./index.js"
+    },
     "scripts": {
         "prelint": "npm run build",
         "pretest": "npm run build",
@@ -27,11 +31,8 @@
         "textmate",
         "grammar"
     ],
-    "engines": {
-        "vscode": "^1.0.0"
-    },
     "author": {
-        "name": "matter123"
+        "name": "Jeff Hykin"
     },
     "publisher": "jeff-hykin",
     "repository": {
