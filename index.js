@@ -43,7 +43,6 @@ let processYargs = (args) => yargs.wrap(
             describe: "list of fixture files",
             global: true,
             default: (()=>{
-                console.debug(`args is:`,args)
                 if (!yargs.finishedParse) {
                     return glob.sync(path.join(process.cwd(), "examples", "/**/*")).filter(each=>!(each.match(/\.spec\.yaml$/g)))
                 } else if (!args._.includes("--eachFixture")) {
