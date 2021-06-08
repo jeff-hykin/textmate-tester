@@ -11,6 +11,8 @@ module.exports = {
     },
     handler: async (args) => {
         if (!require("yargs").finishedParse) return
+        await require("yargs").secondParseFinished
+        console.log(`done`)
         
         const path = require("path")
         const fs = require("fs")
@@ -20,7 +22,6 @@ module.exports = {
 
         const allTests = require("../get_tests")
 
-        console.debug(`here 1`)
         // helper function 
         function keyCompare(key1, key2) {
             const order = ["source", "scopesBegin", "scopes", "scopesEnd"]
@@ -39,7 +40,7 @@ module.exports = {
 
         for (const test of tests) {
             const fixturePath = test.fixturePath
-            console.log("generating spec for", path.relative(global.args.examples, fixturePath))
+            console.log("generating spec for", path.relative(global.args().examples, fixturePath))
             const fixtureLines = fs.readFileSync(fixturePath).toString().split("\n")
 
             const spec = await generateSpec(fixturePath, fixtureLines)

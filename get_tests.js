@@ -7,7 +7,8 @@ const fs = require("fs")
  * @param {(test: Test) => boolean} predicate
  * @returns {Test[]}
  */
-module.exports = global.args.eachFixture.map((fixturePath) => ({
+console.debug(`require("yargs").argv is:`,require("yargs").argv)
+module.exports = global.args().eachFixture.map((fixturePath) => ({
     fixturePath,
     specPath: fixturePath.replace(/\.[^.]+/, ".spec.yaml"),
 }))

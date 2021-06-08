@@ -13,7 +13,7 @@ module.exports = {
     },
     handler: async (yargs) => {
         if (!require("yargs").finishedParse) return
-        
+
         const path = require("path")
         const fs = require("fs")
 
@@ -40,7 +40,7 @@ module.exports = {
                     fileExt = fileExt.concat(
                         JSON.parse(
                             fs.readFileSync(
-                                path.join(global.args.root, match[1])
+                                path.join(global.args().root, match[1])
                             ).toString()
                         )["fileTypes"]
                     )

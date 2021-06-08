@@ -4,8 +4,8 @@ const process = require("process")
 const yargs = require("yargs")
 const glob = require("glob")
 
-// basically: global.args = yargs.argv
-Object.defineProperty(global, "args", {get(){return yargs.argv}})
+// basically: global.args() = yargs.argv
+
 
 // 
 // is a little messy because of https://github.com/yargs/yargs/issues/793
@@ -42,9 +42,10 @@ let processYargs = (args) => yargs.wrap(
             describe: "list of fixture files",
             global: true,
             default: (()=>{
+                console.debug(`args is:`,args)
                 if (!yargs.finishedParse) {
                     return glob.sync(path.join(process.cwd(), "examples", "/**/*")).filter(each=>!(each.match(/\.spec\.yaml$/g)))
-                } else if (!args.eachFixture) {
+                } else if (!args._.includes("--eachFixture")) {
                     const examplesFolder = path.isAbsolute(args.examples) ? args.examples : path.join(args.root, args.examples)
                     return args.eachFixture = glob.sync(path.join(examplesFolder, "/**/*")).filter(each=>!(each.match(/\.spec\.yaml$/g)))
                 }
@@ -89,5 +90,9 @@ let processYargs = (args) => yargs.wrap(
     )
 
 const { hideBin } = require('yargs/helpers')
-processYargs().parse(hideBin(process.argv), ()=>yargs.finishedParse=true)
-processYargs(yargs.argv).parse()
+global.args = ()=>yargs.argv
+;((async ()=>{
+    await new Promise((resolve, reject)=>processYargs().parse(hideBin(process.argv), resolve))
+    yargs.finishedParse = true
+    yargs.secondParseFinished = new Promise((resolve, reject)=>processYargs(yargs.argv).parse(hideBin(process.argv), resolve))
+})())

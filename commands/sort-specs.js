@@ -7,7 +7,7 @@ module.exports = {
     desc: "sort spec files",
     handler: async (yargs) => {
         if (!require("yargs").finishedParse) return
-        
+
         const path = require("path")
         const fs = require("fs")
         const yaml = require("js-yaml")
@@ -26,14 +26,14 @@ module.exports = {
                 || yargs.fixtures.length !== 0
             ) && (
                 yargs.fixtures.length == 0
-                || yargs.fixtures.includes( path.relative(global.args.examples, eachTest.fixturePath) )
+                || yargs.fixtures.includes( path.relative(global.args().examples, eachTest.fixturePath) )
             )
         )
 
         for (const test of tests) {
             console.log(
                 "sorting spec for",
-                path.relative(global.args.examples, test.fixturePath)
+                path.relative(global.args().examples, test.fixturePath)
             )
 
             const spec = fs.readFileSync(test.specPath)

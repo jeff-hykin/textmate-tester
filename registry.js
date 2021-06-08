@@ -11,7 +11,7 @@ function getRegistry(getOnigLib) {
                 console.error(`I can't find the language for ${fixtureExtension}`)
                 process.exit()
             }
-            let grammarPath = global.args.syntax
+            let grammarPath = global.args().syntax
             // check if the syntax exists
             if (!fs.existsSync(grammarPath)) {
                 console.warn(`requested grammar "${sourceName}" which is outside of this repository`)
