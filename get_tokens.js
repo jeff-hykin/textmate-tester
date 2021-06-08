@@ -2,17 +2,13 @@
 const path = require("path")
 const chalk = require("chalk")
 const vsctm = require("vscode-textmate")
-const paths = require("./paths")
 const fs = require("fs")
 const onigLib = require("./report/onigLib")
-const node_process = require("process")
+const process = require("process")
 
-// retrive all the filetypes from the syntax
-let extensionsFor = {}
-for (let eachSyntaxPath of paths["eachJsonSyntax"]) {
-    let langExtension = path.basename(eachSyntaxPath).replace(/\..+/g, "")
-    let syntax = JSON.parse(fs.readFileSync(eachSyntaxPath))
-    extensionsFor[langExtension] = syntax["fileTypes"] || []
+// retrive the filetypes from the syntax
+let extensionsFor = {
+    [global.args.textmateExtension]: JSON.parse(fs.readFileSync(global.args)).fileTypes
 }
 
 let languageExtensionFor = (fixturePath) => {
@@ -40,7 +36,7 @@ let languageExtensionFor = (fixturePath) => {
  * @param {boolean} showFailureOnly
  * @param {(line: string, token: vsctm.IToken) => boolean} process
  */
-module.exports = async function (registry, fixturePath, fixture, showFailureOnly, showLineNumbers, process) {
+module.exports = async function (registry, fixturePath, fixture, showFailureOnly, showLineNumbers, theProcess) {
     let displayedAtLeastOnce = false
     let returnValue = true
     try {
@@ -55,13 +51,13 @@ module.exports = async function (registry, fixturePath, fixture, showFailureOnly
         let lineNumber = 1
         for (const line of fixture) {
             if (showLineNumbers) {
-                node_process.stdout.write("Processing line: " + lineNumber + "\r")
+                process.stdout.write("Processing line: " + lineNumber + "\r")
             }
             let r = grammar.tokenizeLine(line, ruleStack)
             ruleStack = r.ruleStack
             let displayLine = false
             for (const token of r.tokens) {
-                if (!process(line, token)) {
+                if (!theProcess(line, token)) {
                     displayLine = true
                     returnValue = false
                 }

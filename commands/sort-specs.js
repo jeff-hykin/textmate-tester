@@ -13,11 +13,10 @@ async function sortSpecs(yargs) {
     let tests = allTests.filter(
         eachTest=>
         (
-                fs.existsSync(test.spec.yaml)
-            || fs.existsSync(test.spec.json)
+               fs.existsSync(test.specPath)
             || yargs.fixtures.length !== 0
         ) && (
-                yargs.fixtures.length == 0
+               yargs.fixtures.length == 0
             || yargs.fixtures.includes( path.relative(pathFor.fixtures, eachTest.fixturePath) )
         )
     )
@@ -28,9 +27,9 @@ async function sortSpecs(yargs) {
             path.relative(pathFor.fixtures, test.fixturePath)
         )
 
-        const spec = fs.readFileSync(test.spec.default)
+        const spec = fs.readFileSync(test.specPath)
         fs.writeFileSync(
-            test.spec.yaml,
+            test.specPath,
             yaml.dump(yaml.safeLoad(spec), {
                 sortKeys: keyCompare
             })

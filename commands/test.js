@@ -8,7 +8,7 @@ const pathFor = require("../paths")
 
 const allTests = require("../get_tests")
 
-const defaultTestFilter = test => fs.existsSync(test.spec.yaml) || fs.existsSync(test.spec.json)
+const defaultTestFilter = test => fs.existsSync(test.specPath)
 
 const testFilterSelection = (yargs) => {
     if (yargs.fixtures.length !== 0 || yargs.all) {
@@ -43,13 +43,13 @@ const testFilterSelection = (yargs) => {
 
 async function runTests(yargs) {
     const registry = require("../registry").default
-    let whichTestFilter = testFilterSelection(yargs)
+    const whichTestFilter = testFilterSelection(yargs)
     let tests = allTests.filter(
         eachTest=>
             whichTestFilter(eachTest)
             && (
                     yargs.fixtures.length == 0
-                || yargs.fixtures.includes( path.relative(pathFor.fixtures, eachTest.fixturePath) )
+                || yargs.fixtures.includes( path.relative(yargs.examples, eachTest.fixturePath) )
             )
     )
 
@@ -57,18 +57,18 @@ async function runTests(yargs) {
     for (const test of tests) {
         console.group(
             "running test for",
-            path.relative(pathFor.fixtures, test.fixturePath)
+            path.relative(yargs.examples, test.fixturePath)
         )
         const fixture = fs
             .readFileSync(test.fixturePath)
             .toString()
             .split("\n")
-        const spec = fs.readFileSync(test.spec.default)
+        const spec = fs.readFileSync(test.specPath)
         const result = await runTest(
             registry,
-            path.relative(pathFor.fixtures, test.fixturePath),
+            path.relative(yargs.examples, test.fixturePath),
             fixture,
-            yaml.safeLoad(spec, { filename: test.spec.default, json: true }),
+            yaml.safeLoad(spec, { filename: test.specPath, json: true }),
             yargs.showFailureOnly
         )
         totalResult = result ? totalResult : result

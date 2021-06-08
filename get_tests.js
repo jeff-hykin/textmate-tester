@@ -9,13 +9,7 @@ const pathFor = require("./paths")
  * @param {(test: Test) => boolean} predicate
  * @returns {Test[]}
  */
-module.exports = pathFor.eachFixture.map((fixturePath) => {
-    let specPath = fixturePath.replace(/\.[^.]+/, ".spec.yaml")
-    return {
-        fixturePath,
-        spec: {
-            yaml: specPath,
-            default: specPath,
-        },
-    }
-})
+module.exports = pathFor.eachFixture.map((fixturePath) => ({
+    fixturePath,
+    specPath: fixturePath.replace(/\.[^.]+/, ".spec.yaml"),
+}))

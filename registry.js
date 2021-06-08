@@ -15,13 +15,13 @@ function getRegistry(getOnigLib) {
             let grammarPath = pathFor.jsonSyntax(sourceName.replace(/^source\./, ""))
             // check if the syntax exists
             if (!fs.existsSync(grammarPath)) {
-                if (!["source.asm", "source.x86", "source.x86_64", "source.arm"].includes(sourceName)) {
-                    console.error("requested grammar outside of this repository")
-                }
+                console.warn(`requested grammar "${sourceName}" which is outside of this repository`)
                 return Promise.resolve({})
             }
             console.log(sourceName)
-            return Promise.resolve(rewriteGrammar(fs.readFileSync(grammarPath).toString(), sourceName))
+            return Promise.resolve(
+                rewriteGrammar(fs.readFileSync(grammarPath).toString(), sourceName)
+            )
         },
         getOnigLib,
     })
