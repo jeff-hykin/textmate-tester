@@ -1,16 +1,11 @@
 {
-    "name": "better-syntax",
-    "displayName": "Better Syntax",
-    "description": "A bundle of syntax impovements to several languages",
+    "name": "textmate-tester",
+    "displayName": "Textmate Tester",
+    "description": "A package to help your grammars be less buggy",
     "icon": "icon.png",
     "version": "1.0.0",
     "scripts": {
-        "build": "bundle exec ruby scripts/generate.rb",
-        "perfall": "bundle exec ruby scripts/perf_all.rb",
-        "build-gem": "gem build gem/textmate_grammar.gemspec",
-        "postinstall": "bundle install",
         "prelint": "npm run build",
-        "lint": "bundle exec ruby scripts/lint.rb",
         "pretest": "npm run build",
         "test": "node test/source/index.js test",
         "testall": "npm test -- --all",
@@ -25,85 +20,26 @@
         "prereport": "npm run build",
         "report": "node test/source/index.js report",
         "perf": "npm run report -- perf",
-        "cov": "npm run report -- coverage",
-        "publish": "bundle exec ruby scripts/publish.rb cpp"
+        "cov": "npm run report -- coverage"
     },
     "keywords": [
         "syntax",
         "textmate",
-        "highlighting",
-        "coloring",
-        "color"
+        "grammar"
     ],
     "engines": {
         "vscode": "^1.0.0"
     },
     "author": {
-        "name": "Jeff Hykin"
+        "name": "matter123"
     },
     "publisher": "jeff-hykin",
-    "contributes": {
-        "grammars": [
-            {
-                "language": "cpp",
-                "scopeName": "source.cpp.embedded.macro",
-                "path": "./syntaxes/cpp.embedded.macro.tmLanguage.json",
-                "embeddedLanguages": {
-                    "meta.embedded.assembly.cpp": "asm"
-                }
-            },
-            {
-                "language": "cpp",
-                "scopeName": "source.cpp",
-                "path": "./syntaxes/cpp.tmLanguage.json",
-                "embeddedLanguages": {
-                    "meta.embedded.assembly.cpp": "asm",
-                    "meta.preprocessor.macro.contents": "cpp"
-                }
-            },
-            {
-                "language": "c",
-                "scopeName": "source.c",
-                "path": "./syntaxes/c.tmLanguage.json",
-                "embeddedLanguages": {
-                    "meta.embedded.assembly.c": "asm"
-                }
-            },
-            {
-                "language": "objective-cpp",
-                "scopeName": "source.objcpp",
-                "path": "./syntaxes/objcpp.tmLanguage.json"
-            },
-            {
-                "language": "objective-c",
-                "scopeName": "source.objc",
-                "path": "./syntaxes/objc.tmLanguage.json"
-            },
-            {
-                "language": "shellscript",
-                "scopeName": "source.shell",
-                "path": "syntaxes/shell.tmLanguage.json"
-            },
-            {
-                "language": "perl",
-                "scopeName": "source.perl",
-                "path": "syntaxes/perl.tmLanguage.json"
-            },
-            {
-                "language": "dockerfile",
-                "scopeName": "source.dockerfile",
-                "path": "syntaxes/dockerfile.tmLanguage.json"
-            }
-        ]
-    },
-    "categories": [
-        "Programming Languages"
-    ],
     "repository": {
-        "url": "https://github.com/jeff-hykin/cpp-textmate-grammer",
+        "url": "https://github.com/jeff-hykin/textmate-tester",
         "type": "git"
     },
-    "devDependencies": {
+    "devDependencies": {},
+    "dependencies": {
         "chalk": "^2.4.2",
         "convert-svg-to-png": "^0.5.0",
         "dictionary-en-us": "^2.1.1",
@@ -117,10 +53,9 @@
         "nspell": "^2.1.2",
         "oniguruma": "^7.2.0",
         "prettyjson": "^1.2.1",
+        "textmate-bailout": "^1.1.0",
+        "uuid": "^8.3.2",
         "vscode-textmate": "^4.1.1",
-        "yargs": "^13.2.2"
-    },
-    "dependencies": {
-        "textmate-bailout": "^1.1.0"
+        "yargs": "^16.2.0"
     }
 }

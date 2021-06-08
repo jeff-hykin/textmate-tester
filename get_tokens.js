@@ -8,7 +8,7 @@ const process = require("process")
 
 // retrive the filetypes from the syntax
 let extensionsFor = {
-    [global.args.textmateExtension]: JSON.parse(fs.readFileSync(global.args)).fileTypes
+    [global.args.textmateExtension]: JSON.parse(fs.readFileSync(global.args.syntax)).fileTypes
 }
 
 let languageExtensionFor = (fixturePath) => {

@@ -2,7 +2,6 @@ const getTokens = require("./get_tokens")
 const registry = require("./registry").default
 const _ = require("lodash")
 const path = require("path")
-const paths = require("./paths")
 const { removeScopeName } = require("./utils")
 
 /**

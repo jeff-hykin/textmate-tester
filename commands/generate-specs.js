@@ -1,20 +1,5 @@
-// generates spec files for fixtures that are missing them
-
-const path = require("path")
-const fs = require("fs")
-const yaml = require("js-yaml")
-
-const generateSpec = require("../generate_spec")
-const pathFor = require("../paths")
-
-const allTests = require("../get_tests")
-
-// helper function 
-function keyCompare(key1, key2) {
-    const order = ["source", "scopesBegin", "scopes", "scopesEnd"]
-    return order.indexOf(key1) - order.indexOf(key2)
-}
-
+// summary:
+//     generates spec files for fixtures that are missing them
 module.exports = {
     command: "generate-specs [fixtures..]",
     desc: "(re)generate spec files",
@@ -24,10 +9,27 @@ module.exports = {
             describe: "the fixtures to use",
         })
     },
-    handler: async (yargs) => {
+    handler: async (args) => {
+        if (!require("yargs").finishedParse) return
+        
+        const path = require("path")
+        const fs = require("fs")
+        const yaml = require("js-yaml")
+
+        const generateSpec = require("../generate_spec")
+
+        const allTests = require("../get_tests")
+
+        console.debug(`here 1`)
+        // helper function 
+        function keyCompare(key1, key2) {
+            const order = ["source", "scopesBegin", "scopes", "scopesEnd"]
+            return order.indexOf(key1) - order.indexOf(key2)
+        }
+
         // either get all tests, or only the ones that are mentioned
-        let tests = yargs.all ? allTests : allTests.filter(each => {
-            for (const arg of yargs.examples) {
+        let tests = args.all ? allTests : allTests.filter(each => {
+            for (const arg of args.examples) {
                 if (eachTest.fixturePath.match(arg)) {
                     return true
                 }

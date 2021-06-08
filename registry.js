@@ -3,7 +3,6 @@ const fs = require("fs")
 const glob = require("glob")
 const vsctm = require("vscode-textmate")
 const rewriteGrammar = require("./report/rewrite_grammar")
-const pathFor = require("./paths")
 
 function getRegistry(getOnigLib) {
     return new vsctm.Registry({
@@ -12,7 +11,7 @@ function getRegistry(getOnigLib) {
                 console.error(`I can't find the language for ${fixtureExtension}`)
                 process.exit()
             }
-            let grammarPath = pathFor.jsonSyntax(sourceName.replace(/^source\./, ""))
+            let grammarPath = global.args.syntax
             // check if the syntax exists
             if (!fs.existsSync(grammarPath)) {
                 console.warn(`requested grammar "${sourceName}" which is outside of this repository`)
