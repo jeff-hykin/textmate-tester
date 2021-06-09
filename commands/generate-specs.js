@@ -12,7 +12,6 @@ module.exports = {
     handler: async (args) => {
         if (!require("yargs").finishedParse) return
         await require("yargs").secondParseFinished
-        console.log(`done`)
         
         const path = require("path")
         const fs = require("fs")

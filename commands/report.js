@@ -19,6 +19,7 @@ module.exports = {
     },
     handler: async (yargs) => {
         if (!require("yargs").finishedParse) return
+        await require("yargs").secondParseFinished
         
         const fs = require("fs")
         const glob = require("glob")

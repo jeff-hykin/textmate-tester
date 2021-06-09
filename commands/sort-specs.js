@@ -7,6 +7,7 @@ module.exports = {
     desc: "sort spec files",
     handler: async (yargs) => {
         if (!require("yargs").finishedParse) return
+        await require("yargs").secondParseFinished
 
         const path = require("path")
         const fs = require("fs")
