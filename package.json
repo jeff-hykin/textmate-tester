@@ -3,7 +3,7 @@
     "displayName": "Textmate Tester",
     "description": "A package to help your grammars be less buggy",
     "icon": "icon.png",
-    "version": "1.0.5",
+    "version": "1.1.0",
     "license": "MIT",
     "bin": {
         "textmate-tester": "./index.js"
@@ -42,8 +42,6 @@
     "devDependencies": {},
     "dependencies": {
         "chalk": "^2.4.2",
-        "convert-svg-to-png": "^0.5.0",
-        "dictionary-en-us": "^2.1.1",
         "glob": "^7.1.4",
         "js-yaml": "^3.13.1",
         "json-source-map": "^0.4.0",
@@ -51,12 +49,10 @@
         "lodash": "^4.17.19",
         "minimatch": "^3.0.4",
         "node-gyp": "^4.0.0",
-        "nspell": "^2.1.2",
         "oniguruma": "^7.2.0",
         "prettyjson": "^1.2.1",
-        "textmate-bailout": "^1.1.0",
-        "uuid": "^8.3.2",
+        "uuid": "^3.3.2",
         "vscode-textmate": "^4.1.1",
-        "yargs": "^16.2.0"
+        "yargs": "^13.2.2"
     }
 }

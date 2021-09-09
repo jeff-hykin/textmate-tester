@@ -38,6 +38,14 @@ let processYargs = (args) => yargs.wrap(
             global: true,
         }
     ).option(
+        "supportSyntaxes", 
+        {
+            default: "{}",
+            type: 'string',
+            describe: `a json string like { "source.cpp": "syntaxes/cpp.tmLanguage.json", }`,
+            global: true,
+        }
+    ).option(
         "eachFixture",
         {
             describe: "list of fixture files",
