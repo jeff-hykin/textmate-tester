@@ -13,9 +13,10 @@ function getRegistry(getOnigLib) {
                 console.error(`I can't find the language for ${fixtureExtension}`)
                 process.exit()
             }
+            const grammarFile = JSON.parse(fs.readFileSync(global.args().syntax))
             grammarPaths = grammarPaths || {
                 // add the base grammar
-                ["source."+global.args().textmateExtension]: global.args().syntax,
+                [grammarFile.scopeName]: global.args().syntax,
                 // add the others
                 ...JSON.parse(global.args().supportSyntaxes),
             }

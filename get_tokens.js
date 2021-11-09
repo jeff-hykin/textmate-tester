@@ -7,26 +7,24 @@ const onigLib = require("./report/onigLib")
 const process = require("process")
 
 // retrive the filetypes from the syntax
+const grammarFile = JSON.parse(fs.readFileSync(global.args().syntax))
 let extensionsFor = {
-    [global.args().textmateExtension]: JSON.parse(fs.readFileSync(global.args().syntax)).fileTypes
+    [grammarFile.scopeName]: grammarFile.fileTypes
 }
 
-let languageExtensionFor = (fixturePath) => {
+const scopeNameForFixture = (fixturePath) => {
     let fixtureExtension = path.extname(fixturePath).replace(/\./, "")
     let matchingLanguageExtension = null
     // find which lang the extension belongs to
-    for (let eachLangExtension of Object.keys(extensionsFor)) {
-        // if the path include the language, then use that
-        if (fixturePath.includes(`/${eachLangExtension}/`)) {
-            matchingLanguageExtension = eachLangExtension
-            break
-            // if the language extension is in their list, then there
-        } else if (extensionsFor[eachLangExtension].includes(fixtureExtension)) {
-            matchingLanguageExtension = eachLangExtension
-            // break;
+    for (const [eachLang, extensions] of Object.entries(extensionsFor)) {
+        const extensionsWithoutDots = extensions.map(each=>each.replace(/\./,""))
+        if (extensionsWithoutDots.includes(fixtureExtension)) {
+            return eachLang
         }
     }
-    return matchingLanguageExtension
+    // if no match found
+    console.error(`When generating tests for ${fixturePath}\n    I found the extension: ${fixtureExtension}\n    however I don't see a language with that extension:\n${JSON.stringify(extensionsFor,0,4)}\n\n    to add an extension to a language, use the\n    "fileTypes": [ ".example_extension" ]\n    part in the grammar file`)
+    return null
 }
 
 /**
@@ -40,11 +38,12 @@ module.exports = async function (registry, fixturePath, fixture, showFailureOnly
     let displayedAtLeastOnce = false
     let returnValue = true
     try {
-        const grammar = await registry.loadGrammar(`source.${languageExtensionFor(fixturePath)}`)
-        if (grammar == null) {
-            // If the main grammar is missing, (usually markdown) just pass the test
+        const grammarScopeName = scopeNameForFixture(fixturePath)
+        // if no grammar available, skip it
+        if (grammarScopeName == null) {
             return true
         }
+        const grammar = await registry.loadGrammar(grammarScopeName)
         // set the onigLib cause apparently its null sometimes
         grammar._onigLib = onigLib
         let ruleStack = null
