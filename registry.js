@@ -10,7 +10,7 @@ function getRegistry(getOnigLib) {
     return new vsctm.Registry({
         loadGrammar: (sourceName) => {
             if (sourceName == null) {
-                console.error(`I can't find the language for ${fixtureExtension}`)
+                console.error(`I received a sourceName of null inside loadGrammar() and I'm not sure why. Try checking the "fileTypes": of your grammar(s)`)
                 process.exit()
             }
             const grammarFile = JSON.parse(fs.readFileSync(global.args().syntax))
