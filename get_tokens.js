@@ -12,6 +12,10 @@ let extensionsFor = {
     [grammarFile.scopeName]: grammarFile.fileTypes
 }
 
+if (!(grammarFile.fileTypes instanceof Array)) {
+    throw Error(`\n\n\nMake sure the grammar file ${global.args().syntax} includes a "fileTypes" field that is an array of valid file extensions for the language\n\n\ncurrent syntax input: ${grammarFile}`)
+}
+
 const scopeNameForFixture = (fixturePath) => {
     let fixtureExtension = path.extname(fixturePath).replace(/\./, "")
     let matchingLanguageExtension = null
