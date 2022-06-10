@@ -18,4 +18,4 @@ Its a testing tool for anyone trying to maintain a TextMate Grammar (ex: `thing.
 
 # Installation/Setup this project for 
 
-Everything is detailed in the `documentation/SETUP.md`!
+Everything is detailed in the `documentation/setup.md`!
