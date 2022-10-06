@@ -36,13 +36,19 @@ module.exports = {
             }
             return false
         })
-
+        
+        let totalTime = 0
         for (const test of tests) {
             const fixturePath = test.fixturePath
+            const start = (new Date()).getTime()
             console.log("generating spec for", path.relative(global.args().examples, fixturePath))
             const fixtureLines = fs.readFileSync(fixturePath).toString().split("\n")
 
             const spec = await generateSpec(fixturePath, fixtureLines)
+            const end = (new Date()).getTime()
+            const duration = (end-start)
+            totalTime += duration
+            console.log(`time: ${duration/1000}sec`)
             fs.writeFileSync(
                 test.specPath,
                 yaml.dump(JSON.parse(JSON.stringify(spec)), {
@@ -50,5 +56,6 @@ module.exports = {
                 })
             )
         }
+        console.log(`Processing time for all: ${totalTime/1000}sec`)
     },
 }
