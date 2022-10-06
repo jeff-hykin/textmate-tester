@@ -12,7 +12,7 @@
     "build": "echo",
     "prelint": "npm run build",
     "pretest": "npm run build",
-    "test": "node index.js test",
+    "test": "echo",
     "testall": "npm test -- --all",
     "genall": "npm run generate-specs -- --all",
     "preversion": "npm test",
