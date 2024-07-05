@@ -15,12 +15,12 @@ module.exports = {
                 }
             }
         }
-        let recorder
+        let theRecorder
         if (typeof scopeName == "string" && scopeName.length != 0) {
-            recorder = recorder.getRecorder(scopeName)
+            theRecorder = recorder.getRecorder(scopeName)
         }
         // grab scopeName from first pattern
-        return new OnigScanner(patterns, recorder)
+        return new OnigScanner(patterns, theRecorder)
     },
     createOnigString: (s) => {
         let string = new oniguruma.OnigString(s)
