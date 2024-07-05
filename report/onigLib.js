@@ -4,13 +4,24 @@ const recorder = require("./recorder")
 const oniguruma = require("oniguruma")
 
 module.exports = {
-    createOnigScanner: (patterns) => {
-        if (patterns.length === 0) {
-            return new OnigScanner(patterns, undefined)
+    createOnigScanner: (patterns, scopeName) => {
+        let scopeName = undefined
+        if (patterns.length !== 0) {
+            const match = patterns[0].match(/^\(\?#(.+):\d+\)/)
+            if (match) {
+                if (match[1].includes(".")) {
+                    scopeName = match[1].split(".").slice(-1)[0]
+                } else {
+                    scopeName = match[1]
+                }
+            }
+        }
+        let recorder
+        if (typeof scopeName == "string" && scopeName.length == 0) {
+            recorder = recorder.getRecorder(scopeName)
         }
         // grab scopeName from first pattern
-        const scopeName = patterns[0].match(/^\(\?#(source\..+):\d+\)/)[1]
-        return new OnigScanner(patterns, recorder.getRecorder(scopeName))
+        return new OnigScanner(patterns, recorder)
     },
     createOnigString: (s) => {
         let string = new oniguruma.OnigString(s)

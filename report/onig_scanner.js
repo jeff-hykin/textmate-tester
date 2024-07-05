@@ -36,7 +36,7 @@ module.exports = class OnigScanner {
                 results.push({
                     match,
                     matchTime: endTime - startTime,
-                    line: this.patterns[index].match(/^\(\?#(source\..+:\d+)\)/)[1],
+                    line: this.patterns[index].match(/^\(\?#(.+:\d+)\)/)[1],
                     chosen: false, // chosen is calculated after the fact
                 })
             } catch (e) {
@@ -61,14 +61,14 @@ module.exports = class OnigScanner {
                 }
             }
         }
-        if (chosenResult) {
+        if (chosenResult instanceof Object) {
             chosenResult.chosen = true
         }
         //report all results
         for (const result of results) {
             this.recorder.record(result.line, result.matchTime, result.chosen, result.match === null, this.patterns.length === 1)
         }
-        if (chosenResult.match === null) {
+        if (!chosenResult || chosenResult.match === null) {
             return null
         }
         return {
