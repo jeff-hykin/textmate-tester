@@ -5,8 +5,7 @@ const oniguruma = require("oniguruma")
 
 module.exports = {
     createOnigScanner: (patterns, scopeName) => {
-        let scopeName = undefined
-        if (patterns.length !== 0) {
+        if (patterns.length !== 0 && !scopeName) {
             const match = patterns[0].match(/^\(\?#(.+):\d+\)/)
             if (match) {
                 if (match[1].includes(".")) {
