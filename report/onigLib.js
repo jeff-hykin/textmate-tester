@@ -16,7 +16,7 @@ module.exports = {
             }
         }
         let recorder
-        if (typeof scopeName == "string" && scopeName.length == 0) {
+        if (typeof scopeName == "string" && scopeName.length != 0) {
             recorder = recorder.getRecorder(scopeName)
         }
         // grab scopeName from first pattern

@@ -70,6 +70,9 @@ module.exports = {
         reporters.push(reporter)
     },
     getRecorder: function (scopeName) {
+        if (Object.keys(recorders).length == 1) {
+            return recorders[Object.keys(recorders)[0]]
+        }
         return recorders[scopeName]
     },
     reportAllRecorders: function () {
