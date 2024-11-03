@@ -69,11 +69,11 @@ module.exports = {
     loadReporter: function (reporter) {
         reporters.push(reporter)
     },
+    getRecorderNames() {
+        return Object.keys(recorders)
+    },
     getRecorder: function (scopeName) {
-        if (Object.keys(recorders).length == 1) {
-            return recorders[Object.keys(recorders)[0]]
-        }
-        return recorders[scopeName]
+        return recorders[scopeName] 
     },
     reportAllRecorders: function () {
         for (const recorder of Object.values(recorders)) {
